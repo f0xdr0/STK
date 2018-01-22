@@ -2,12 +2,13 @@
 
 import socket
 import argparse
+import sys
 from mikrotik import ApiRos
 
-Login  = 'f0x'
-Password = 'qweqwerty'
+Login  = 'apiusr'
+Password = 'qwertyqwerty1'
 BrasIP = '192.168.111.1'
-ListName = 'BillBlockQ'
+ListName = 'BillBlockq'
 
 
 def init(Login,Password,RouterIP):
@@ -90,7 +91,7 @@ def main ():
     sock=init(Login,Password,BrasIP)
     AddIpToList(sock,'192.168.111.200',ListName)
     #RemIpFromList(sock,'192.168.111.200',ListName)
-    ChangeList(sock,'192.168.111.200',ListName,'GoGoGoGMBT')
+#    ChangeList(sock,'192.168.111.200',ListName,'GoGoGoGMBT')
 if __name__ == '__main__':
     main()
 

@@ -34,6 +34,9 @@ class ApiRos:
                 else:
                     attrs[w[:j]] = w[j+1:]
             r.append((reply, attrs))
+            if reply == '!trap': 
+              print (attrs)
+              sys.exit(0)
             if reply == '!done': return r
 
     def writeSentence(self, words):
@@ -52,13 +55,13 @@ class ApiRos:
             r.append(w)
             
     def writeWord(self, w):
-        print(("<<< " + w))
+        #print(("<<< " + w))
         self.writeLen(len(w))
         self.writeStr(w)
 
     def readWord(self):
         ret = self.readStr(self.readLen())
-        print((">>> " + ret))
+        #print((">>> " + ret))
         return ret
 
     def writeLen(self, l):
