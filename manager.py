@@ -3,7 +3,7 @@
 import socket
 import argparse
 import sys
-from mikrotik import ApiRos
+from api import ApiRos
 
 Login  = 'apiusr'
 Password = 'qwertyqwerty1'
