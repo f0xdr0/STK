@@ -1,19 +1,21 @@
 
-- Name: Belgorod
+Belgorod:
   ip: 192.168.10.1
   username: admin
   password: password1
+  BlockListName: BillBlock
   tarif_id:
-  - 1: shaper_10Mbit
-  - 2: shaper_20Mbit
-  - 3: shaper_30Mbit
+    1: shaper_10Mbit
+    2: shaper_20Mbit
+    3: shaper_30Mbit
 
-- Name: StOskol
-  ip: 192.168.11.1
+StOskol:
+  ip: 192.168.10.1
   username: admin
   password: password2
+  BlockListName: BillBlock
   tarif_id:
-  - 1: shaper_10Mbit
-  - 2: shaper_20Mbit
-  - 3: shaper_30Mbit
+    1: shaper_10Mbit
+    2: shaper_20Mbit
+    3: shaper_30Mbit
 

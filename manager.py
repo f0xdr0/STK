@@ -1,14 +1,11 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
+#! -*- coding: utf-8 -*-
 
 import socket
 import argparse
 import sys
+import yaml
 from api import ApiRos
-
-Login  = 'apiusr'
-Password = 'qwertyqwerty1'
-BrasIP = '192.168.111.1'
-ListName = 'BillBlockq'
 
 
 def init(Login,Password,RouterIP):
@@ -86,12 +83,47 @@ def ChangeList(apiros,ClientIP,OldListName,NewListName):
         resp=apiros.readSentence()
     return 0
 
+def ChangeTariff(apiros,ClientIP,TarifName):
+    inputsentence = ['/ip/firewall/address-list/print','?address={}'.format(ClientIP),'=.proplist=.id']
+    apiros.writeSentence(inputsentence)
+    IDList=[]
+    resp=["init"]
+    while resp[0].strip()!="!done":
+      resp=apiros.readSentence()
+      if resp[0].strip()=="!re":
+        IDList.append(resp[1])
+    for id in IDList:
+      inputsentence = ['/ip/firewall/address-list/print',id,'=.proplist=.list']
+      apiros.writeSentence(inputsentence)
+      resp=["init"]
+      while resp[0].strip()!="!done":
+        resp=apiros.readSentence()
+        print (resp)
+    return 0
+
+
 
 def main ():
-    sock=init(Login,Password,BrasIP)
-    AddIpToList(sock,'192.168.111.200',ListName)
-    #RemIpFromList(sock,'192.168.111.200',ListName)
-#    ChangeList(sock,'192.168.111.200',ListName,'GoGoGoGMBT')
+    with open('config.yaml','r') as cfg_file:
+      bras = yaml.load(cfg_file)
+
+    parser = argparse.ArgumentParser(description='Управление BRAS')
+    parser.add_argument('-cmd', action='store',type=str, dest='cmd',choices=['logon','logoff','set_tarif','nat'],required=True, help='Executable command ')
+    parser.add_argument('-bras', action='store',type=str, dest='bras',choices=bras.keys(),required=True, help='Bras name from config.yaml')
+    parser.add_argument('-ip', action='store',type=str, dest='clientIP',required=True, help='Client ip address ')
+    parser.add_argument('-tarif_id', action='store',type=int, dest='tarifID', help='Tariff ID (see config.yaml) ')
+    parser.add_argument('-white_ip', action='store',type=str, dest='whiteIP', help='White ip for 1to1 NAT ')
+    args = parser.parse_args()
+    print (bras[args.bras]['tarif_id'].keys())
+    sock=init(bras[args.bras]['username'], bras[args.bras]['password'], bras[args.bras]['ip'])
+
+    if args.cmd == 'logon':
+      RemIpFromList(sock, args.clientIP, bras[args.bras]['BlockListName'])
+    elif args.cmd == 'logoff':
+      AddIpToList(sock, args.clientIP, bras[args.bras]['BlockListName'])
+    elif args.cmd == 'set_tarif':
+      if args.tarifID:
+        ChangeTarif(sock, args.clientIP, args.tarifID)
 if __name__ == '__main__':
     main()
 
