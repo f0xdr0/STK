@@ -9,6 +9,16 @@ Belgorod:
     2: shaper_20Mbit
     3: shaper_30Mbit
 
+Test:
+  ip: 192.168.88.1
+  username: billing
+  password: password1
+  BlockListName: BillBlock
+  tarif_id:
+    1: shaper_10Mbit
+    2: shaper_20Mbit
+    3: shaper_30Mbit
+
 StOskol:
   ip: 192.168.10.1
   username: admin

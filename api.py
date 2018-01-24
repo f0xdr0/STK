@@ -55,13 +55,13 @@ class ApiRos:
             r.append(w)
             
     def writeWord(self, w):
-        print(("<<< " + w))
+        #print(("<<< " + w))
         self.writeLen(len(w))
         self.writeStr(w)
 
     def readWord(self):
         ret = self.readStr(self.readLen())
-        print((">>> " + ret))
+        #print((">>> " + ret))
         return ret
 
     def writeLen(self, l):
